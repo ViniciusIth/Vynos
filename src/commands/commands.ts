@@ -3,10 +3,10 @@ import {
   ICommandModalInteraction,
 } from '../interfaces/command';
 import * as misc from './misc';
-import * as modal from './modal';
+import * as player from './player';
 
 // Place all commands here for registering
 export const commands: ICommandInteraction[] | ICommandModalInteraction[] = [
   misc.ping,
-  modal.modal_example,
+  player.newPlayer,
 ];
