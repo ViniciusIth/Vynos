@@ -1,6 +1,5 @@
 import {
   ActionRowBuilder,
-  CacheType,
   CommandInteraction,
   ModalBuilder,
   ModalSubmitInteraction,
@@ -8,7 +7,9 @@ import {
   TextInputBuilder,
   TextInputStyle,
 } from 'discord.js';
+import { setTimeout } from 'timers/promises';
 import { ICommandModalInteraction } from '../interfaces/command';
+import { Character } from '../schemas/character';
 
 export const newPlayer: ICommandModalInteraction = {
   data: new SlashCommandBuilder()
@@ -44,12 +45,33 @@ export const newPlayer: ICommandModalInteraction = {
   },
 
   async handle(interaction: ModalSubmitInteraction): Promise<void> {
+    await interaction.deferReply();
+
     const characterName =
       interaction.fields.getTextInputValue('chararacter_name');
     const characterSpecies = interaction.fields.getTextInputValue(
       'chararacter_species'
     );
 
-    await interaction.reply(`${characterName} - ${characterSpecies}`);
+    const newCharacter = new Character({
+      userId: interaction.member?.user.id,
+      characterName: characterName,
+      characterSpecies: characterSpecies,
+      characterAttr: {
+        cha: 100,
+        con: 100,
+        dex: 100,
+        str: 100,
+        int: 100,
+      },
+      characterEter: 10,
+      characterHealth: 10,
+    });
+
+    await newCharacter.save();
+
+    await interaction.reply('Created new character');
+
+    return;
   },
 };
