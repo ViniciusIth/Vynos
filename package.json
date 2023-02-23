@@ -15,6 +15,7 @@
     "ts-node": "^10.9.1"
   },
   "dependencies": {
-    "discord.js": "^14.7.1"
+    "discord.js": "^14.7.1",
+    "mongoose": "^6.10.0"
   }
 }

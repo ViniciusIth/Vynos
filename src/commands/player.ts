@@ -8,9 +8,9 @@ import {
   TextInputBuilder,
   TextInputStyle,
 } from 'discord.js';
-import { ModalInt } from '../interfaces/command';
+import { ICommandModalInteraction } from '../interfaces/command';
 
-export const newPlayer: ModalInt = {
+export const newPlayer: ICommandModalInteraction = {
   data: new SlashCommandBuilder()
     .setName('new_character')
     .setDescription('Setup a new player on the server!'),

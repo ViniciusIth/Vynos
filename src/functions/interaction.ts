@@ -1,6 +1,6 @@
 import { Interaction, InteractionType } from 'discord.js';
-import { commands } from './commands/commands';
-import { ICommandModalInteraction } from './interfaces/command';
+import { commands } from '../commands/commands';
+import { ICommandModalInteraction } from '../interfaces/command';
 
 export async function onInteraction(interaction: Interaction) {
   // Executes the 'execute' method of all commands
