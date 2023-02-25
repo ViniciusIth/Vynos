@@ -7,7 +7,7 @@ import buildProfile from '../../embeds/character_profile';
 import { ICommandInteraction } from '../../interfaces/command';
 import { Character } from '../../schemas/character';
 
-const getCharacter: ICommandInteraction = {
+const getProfile: ICommandInteraction = {
   data: new SlashCommandBuilder()
     .setName('get_profile')
     .setDescription('get the character by id')
@@ -32,4 +32,4 @@ const getCharacter: ICommandInteraction = {
   },
 };
 
-export default getCharacter;
+export default getProfile;

@@ -6,7 +6,7 @@ import setStatus from './commands/character/set_status';
 import ping from './commands/misc/ping';
 import createCharacter from './commands/character/create_character';
 import setActive from './commands/character/set_active';
-import getCharacter from './commands/character/get_character';
+import getProfile from './commands/character/get_profile';
 
 // Place all commands here for registering
 export const commands: ICommandInteraction[] | ICommandModalInteraction[] = [
@@ -14,5 +14,5 @@ export const commands: ICommandInteraction[] | ICommandModalInteraction[] = [
   createCharacter,
   setActive,
   setStatus,
-  getCharacter,
+  getProfile,
 ];
