@@ -5,6 +5,7 @@ import {
   EmbedBuilder,
   ModalBuilder,
   ModalSubmitInteraction,
+  PermissionsBitField,
   SlashCommandBuilder,
   TextInputBuilder,
   TextInputStyle,
@@ -63,6 +64,16 @@ const createCharacter: ICommandModalInteraction = {
       name: characterName,
       type: ChannelType.GuildText,
       parent: '1078473060308484176',
+      permissionOverwrites: [
+        {
+          id: interaction.guild!.id,
+          deny: [PermissionsBitField.All],
+        },
+        {
+          id: interaction.user.id,
+          allow: [PermissionsBitField.Default],
+        },
+      ],
     })!;
 
     const channelMessage = await newChannel.send('Creating character...');
@@ -89,14 +100,11 @@ const createCharacter: ICommandModalInteraction = {
 
     await newCharacter.save();
 
-    const characterAttr = newCharacter.attributes;
-
     const characterDetails = buildDetails(newCharacter);
-
     const characterStatus = buildStatus(newCharacter);
 
     await channelMessage.edit({
-      content: `Editado as ${new Date().toString()}`,
+      content: '',
       embeds: [characterDetails, characterStatus],
     });
 
