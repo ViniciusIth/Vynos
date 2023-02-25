@@ -12,6 +12,7 @@ function buildDetails(character: ICharacter) {
 **História**
 ${character.story}`
     )
+    .setImage(character.imageUrl!)
     .addFields(
       {
         name: 'cha',
@@ -46,6 +47,11 @@ ${character.story}`
         value: `${character.attributes?.int} -> ${
           character.attributes?.int! / 100
         }`,
+        inline: true,
+      },
+      {
+        name: '᲼',
+        value: '᲼',
         inline: true,
       }
     );
