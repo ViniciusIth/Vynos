@@ -5,12 +5,11 @@ import {
   ModalSubmitInteraction,
 } from 'discord.js';
 
-
 /**
  * Must be implemented in every command
  */
 export interface ICommandInteraction {
-  data: SlashCommandBuilder | SlashCommandSubcommandsOnlyBuilder;
+  data: SlashCommandBuilder | SlashCommandSubcommandsOnlyBuilder | Omit<SlashCommandBuilder, "addSubcommandGroup" | "addSubcommand">;
   execute: (interaction: CommandInteraction) => Promise<void>;
 }
 

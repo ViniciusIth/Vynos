@@ -1,7 +1,7 @@
-import { ICommandInteraction } from './../interfaces/command';
+import { ICommandInteraction } from '../../interfaces/command';
 import { CommandInteraction, SlashCommandBuilder } from 'discord.js';
 
-export const ping: ICommandInteraction = {
+const ping: ICommandInteraction = {
   data: new SlashCommandBuilder()
     .setName('ping')
     .setDescription('Replies with pong and latency!'),
@@ -11,3 +11,5 @@ export const ping: ICommandInteraction = {
     await interaction.reply(`Pong! ${time}ms`);
   },
 };
+
+export default ping;
