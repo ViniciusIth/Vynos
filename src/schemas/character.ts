@@ -17,14 +17,11 @@ export const characterSchema = new Schema({
   story: { type: String, default: '' },
 
   attributes: {
-    type: {
-      str: { type: Number, default: 100 },
-      dex: { type: Number, default: 100 },
-      con: { type: Number, default: 100 },
-      cha: { type: Number, default: 100 },
-      int: { type: Number, default: 100 },
-    },
-    required: true,
+    str: { type: Number, default: 100 },
+    dex: { type: Number, default: 100 },
+    con: { type: Number, default: 100 },
+    cha: { type: Number, default: 100 },
+    int: { type: Number, default: 100 },
   },
 });
 

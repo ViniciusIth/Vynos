@@ -24,5 +24,5 @@ export interface ICharacter extends Document {
   imageUrl: string;
   story: string;
 
-  attributes: ICharacterAttributes;
+  attributes?: ICharacterAttributes;
 }
