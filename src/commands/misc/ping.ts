@@ -7,8 +7,7 @@ const ping: ICommandInteraction = {
     .setDescription('Replies with pong and latency!'),
 
   async execute(interaction: CommandInteraction): Promise<void> {
-    const time = new Date().getTime() - interaction.createdAt.getTime();
-    await interaction.reply(`Pong! ${time}ms`);
+    await interaction.reply(`Pong! ${interaction.client.ws.ping}ms`);
   },
 };
 
