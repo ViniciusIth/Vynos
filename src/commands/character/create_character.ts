@@ -9,6 +9,8 @@ import {
   TextInputBuilder,
   TextInputStyle,
 } from 'discord.js';
+import buildDetails from '../../embeds/character_details';
+import buildStatus from '../../embeds/character_status';
 import { ICommandModalInteraction } from '../../interfaces/command';
 import { Character } from '../../schemas/character';
 
@@ -65,6 +67,15 @@ const createCharacter: ICommandModalInteraction = {
 
     const channelMessage = await newChannel.send('Creating character...');
 
+    const profilePics = [
+      'https://i.pinimg.com/564x/81/70/21/81702128c4248529f9dc6e7506432004.jpg',
+      'https://i.pinimg.com/564x/3f/de/86/3fde8620893d9a399a8f9214c76cdc9a.jpg',
+      'https://i.pinimg.com/564x/6e/10/65/6e10655a613a2e5d35a0cf207b245266.jpg',
+      'https://i.pinimg.com/564x/72/63/8c/72638ca88f1ddbc8913bcbf24947b7b7.jpg',
+    ];
+
+    const random = Math.floor(Math.random() * profilePics.length);
+
     const newCharacter = new Character({
       userId: user.id,
       guildChannelId: newChannel?.id,
@@ -73,57 +84,16 @@ const createCharacter: ICommandModalInteraction = {
       name: characterName,
       race: characterRace,
 
-      imageUrl: '',
-      story: '',
+      imageUrl: profilePics[random],
     });
 
     await newCharacter.save();
 
     const characterAttr = newCharacter.attributes;
 
-    const characterDetails = new EmbedBuilder()
-      .setDescription(
-        `
-> Nome: ${newCharacter.name}
-> Raça: ${newCharacter.race}
-> ID: ${newCharacter._id}
+    const characterDetails = buildDetails(newCharacter);
 
-**História**
-${newCharacter.story}`
-      )
-      .addFields(
-        {
-          name: 'cha',
-          value: `${characterAttr?.cha} -> ${characterAttr?.cha! / 100}`,
-          inline: true,
-        },
-        {
-          name: 'con',
-          value: `${characterAttr?.con} -> ${characterAttr?.con! / 100}`,
-          inline: true,
-        },
-        {
-          name: 'dex',
-          value: `${characterAttr?.dex} -> ${characterAttr?.dex! / 100}`,
-          inline: true,
-        },
-        {
-          name: 'str',
-          value: `${characterAttr?.str} -> ${characterAttr?.str! / 100}`,
-          inline: true,
-        },
-        {
-          name: 'int',
-          value: `${characterAttr?.int} -> ${characterAttr?.int! / 100}`,
-          inline: true,
-        }
-      );
-
-    const characterStatus = new EmbedBuilder().setTitle('Status')
-      .setDescription(`
-> Level: ${newCharacter.level}
-> HP: ${newCharacter.maxHealth}
-> PE: ${newCharacter.maxEter}`);
+    const characterStatus = buildStatus(newCharacter);
 
     await channelMessage.edit({
       content: `Editado as ${new Date().toString()}`,
