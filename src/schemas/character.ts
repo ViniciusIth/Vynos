@@ -1,27 +1,30 @@
 import { Schema, model } from 'mongoose';
 
 export const characterSchema = new Schema({
-  userId: String,
-  guildChannelId: String,
-  embedMessageId: String,
-  messageColor: {type: String, default: '#66c0c0'},
+  userId: { type: String, required: true },
+  guildChannelId: { type: String, required: true },
+  embedMessageId: { type: String, required: true },
+  messageColor: { type: String, default: '#66c0c0' },
 
-  name: String,
-  race: String,
+  name: { type: String, required: true },
+  race: { type: String, required: true },
   level: { type: Number, default: 1 },
 
   maxHealth: { type: Number, default: 10 },
   maxEter: { type: Number, default: 10 },
 
-  imageUrl: String,
-  story: String,
+  imageUrl: { type: String, required: true },
+  story: { type: String, default: '' },
 
   attributes: {
-    str: { type: Number, default: 100 },
-    dex: { type: Number, default: 100 },
-    con: { type: Number, default: 100 },
-    cha: { type: Number, default: 100 },
-    int: { type: Number, default: 100 },
+    type: {
+      str: { type: Number, default: 100 },
+      dex: { type: Number, default: 100 },
+      con: { type: Number, default: 100 },
+      cha: { type: Number, default: 100 },
+      int: { type: Number, default: 100 },
+    },
+    required: true,
   },
 });
 
