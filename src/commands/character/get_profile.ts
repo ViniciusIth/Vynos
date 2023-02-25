@@ -1,10 +1,15 @@
-import { CommandInteraction, SlashCommandBuilder } from 'discord.js';
+import {
+  CommandInteraction,
+  EmbedBuilder,
+  SlashCommandBuilder,
+} from 'discord.js';
+import buildProfile from '../../embeds/character_profile';
 import { ICommandInteraction } from '../../interfaces/command';
 import { Character } from '../../schemas/character';
 
 const getCharacter: ICommandInteraction = {
   data: new SlashCommandBuilder()
-    .setName('get_character')
+    .setName('get_profile')
     .setDescription('get the character by id')
     .addStringOption((option) =>
       option
@@ -17,8 +22,14 @@ const getCharacter: ICommandInteraction = {
 
     const character = await Character.findById(characterId).exec();
 
-    interaction.reply(`Data for ${character?.name} is WIP`);
+    if (!character) {
+      return;
+    }
+
+    const profileEmbed = buildProfile(character);
+
+    interaction.reply({ embeds: [profileEmbed] });
   },
 };
 
-export default getCharacter
+export default getCharacter;
