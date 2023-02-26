@@ -1,5 +1,7 @@
 import { CommandInteraction, SlashCommandBuilder } from 'discord.js';
 import { ICommandInteraction } from '../../interfaces/command';
+import { Character } from '../../schemas/character';
+import { reloadCharacterSheet } from '../../utils/character.utils';
 
 const setStatus: ICommandInteraction = {
   data: new SlashCommandBuilder()
@@ -12,8 +14,8 @@ const setStatus: ICommandInteraction = {
         .setRequired(true)
         .addChoices(
           { name: 'LVL', value: 'level' },
-          { name: 'HP', value: 'health' },
-          { name: 'PE', value: 'eter' }
+          { name: 'HP', value: 'maxHealth' },
+          { name: 'PE', value: 'maxEter' }
         )
     )
     .addIntegerOption((option) =>
@@ -24,8 +26,31 @@ const setStatus: ICommandInteraction = {
     ),
 
   async execute(interaction: CommandInteraction): Promise<void> {
-    const time = new Date().getTime() - interaction.createdAt.getTime();
-    await interaction.reply(`Pong! ${time}ms`);
+    const status = interaction.options.get('status')?.value as string;
+    const newValue = interaction.options.get('value')?.value;
+
+    const updateObj: any = {};
+    updateObj[status] = newValue;
+
+    console.log(JSON.stringify(updateObj));
+
+    const character = await Character.findOneAndUpdate(
+      { userId: interaction.user.id },
+      updateObj,
+      { new: true }
+    ).exec();
+
+    if (!character) {
+      interaction.reply({ content: 'Character not found!', ephemeral: true });
+      return;
+    }
+
+    await reloadCharacterSheet(character, interaction.client);
+
+    interaction.reply({
+      content: `${status} set to ${newValue}`,
+      ephemeral: true,
+    });
   },
 };
 
