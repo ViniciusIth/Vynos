@@ -2,7 +2,6 @@ import {
   ActionRowBuilder,
   ChannelType,
   CommandInteraction,
-  EmbedBuilder,
   ModalBuilder,
   ModalSubmitInteraction,
   PermissionsBitField,
@@ -21,6 +20,17 @@ const createCharacter: ICommandModalInteraction = {
     .setDescription('Setup a new player on the server!'),
 
   async execute(interaction: CommandInteraction) {
+    const character = await Character.findOne({
+      userId: interaction.user.id,
+    }).exec();
+
+    if (character) {
+      await interaction.reply(
+        `Devido a limitações tecnicas, você só pode ter um personagem. <#${character.guildChannelId}> é seu personagem ativo.`
+      );
+      return;
+    }
+
     const modal = new ModalBuilder()
       .setTitle('Character Creation')
       .setCustomId('create_character');
@@ -52,7 +62,7 @@ const createCharacter: ICommandModalInteraction = {
     await interaction.deferReply();
 
     const guild = interaction.guild!;
-    const user = interaction.member?.user!;
+    const user = interaction.user!;
 
     const characterName =
       interaction.fields.getTextInputValue('chararacter_name');
@@ -71,7 +81,10 @@ const createCharacter: ICommandModalInteraction = {
         },
         {
           id: interaction.user.id,
-          allow: [PermissionsBitField.Default],
+          allow: [
+            PermissionsBitField.Default,
+            PermissionsBitField.Flags.UseApplicationCommands,
+          ],
         },
       ],
     })!;
