@@ -1,5 +1,6 @@
 import { EmbedBuilder } from 'discord.js';
 import { ICharacter } from '../interfaces/character';
+import { getDecimalPart } from '../utils/character.utils';
 
 function buildDetails(character: ICharacter) {
   const characterDetails = new EmbedBuilder()
@@ -16,37 +17,37 @@ ${character.story}`
     .addFields(
       {
         name: 'cha',
-        value: `${character.attributes?.cha} -> ${
-          character.attributes?.cha! / 100
-        }`,
+        value: `\`${character.attributes?.cha} ► ${getDecimalPart(
+          character.attributes?.cha!
+        )}\``,
         inline: true,
       },
       {
         name: 'con',
-        value: `${character.attributes?.con} -> ${
-          character.attributes?.con! / 100
-        }`,
+        value: `\`${character.attributes?.con} ► ${getDecimalPart(
+          character.attributes?.con!
+        )}\``,
         inline: true,
       },
       {
         name: 'dex',
-        value: `${character.attributes?.dex} -> ${
-          character.attributes?.dex! / 100
-        }`,
+        value: `\`${character.attributes?.dex} ► ${getDecimalPart(
+          character.attributes?.dex!
+        )}\``,
         inline: true,
       },
       {
         name: 'str',
-        value: `${character.attributes?.str} -> ${
-          character.attributes?.str! / 100
-        }`,
+        value: `\`${character.attributes?.str} ► ${getDecimalPart(
+          character.attributes?.str!
+        )}\``,
         inline: true,
       },
       {
         name: 'int',
-        value: `${character.attributes?.int} -> ${
-          character.attributes?.int! / 100
-        }`,
+        value: `\`${character.attributes?.int} ► ${getDecimalPart(
+          character.attributes?.int!
+        )}\``,
         inline: true,
       },
       {

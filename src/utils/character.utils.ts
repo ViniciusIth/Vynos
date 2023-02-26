@@ -19,3 +19,7 @@ export async function reloadCharacterSheet(
 
   await message.edit({ embeds: [characterDetails, characterStatus] });
 }
+
+export function getDecimalPart(number: number) {
+  return Math.floor((number - 100) / 10);
+}
