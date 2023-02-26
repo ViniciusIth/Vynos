@@ -57,10 +57,16 @@ const setStory: ICommandModalInteraction = {
 
       await reloadCharacterSheet(character, interaction.client);
 
-      interaction.reply('Story edited successfully ✅');
+      interaction.reply({
+        content: 'Story edited successfully ✅',
+        ephemeral: true,
+      });
     } catch (error) {
       console.error(`Error updating character story:\n ${chalk.red(error)}`);
-      interaction.reply('There was an error updating the character story ❌');
+      interaction.reply({
+        content: 'There was an error updating the character story ❌',
+        ephemeral: true,
+      });
     }
   },
 };

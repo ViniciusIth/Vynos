@@ -35,10 +35,16 @@ const setImage: ICommandInteraction = {
 
       await reloadCharacterSheet(character, interaction.client);
 
-      interaction.reply('Image set successfully ✅');
+      interaction.reply({
+        content: 'Image set successfully ✅',
+        ephemeral: true,
+      });
     } catch (error) {
       console.error(`Error updating character mage:\n ${chalk.red(error)}`);
-      interaction.reply('There was an error updating the character image ❌');
+      interaction.reply({
+        content: 'There was an error updating the character image ❌',
+        ephemeral: true,
+      });
     }
   },
 };
