@@ -5,7 +5,7 @@ import { reloadCharacterSheet } from '../../utils/character.utils';
 
 const reload: ICommandInteraction = {
   data: new SlashCommandBuilder()
-    .setName('reload')
+    .setName('reload_sheet')
     .setDescription('reloads character sheet'),
   async execute(interaction: CommandInteraction): Promise<void> {
     const character = await Character.findOne({

@@ -1,5 +1,6 @@
 import chalk from 'chalk';
 import { CommandInteraction, SlashCommandBuilder } from 'discord.js';
+import { charNotFoundError } from '../../embeds/error/character_not_found';
 import { ICommandInteraction } from '../../interfaces/command';
 import { Character } from '../../schemas/character';
 import { reloadCharacterSheet } from '../../utils/character.utils';
@@ -23,14 +24,21 @@ const setImage: ICommandInteraction = {
     try {
       const character = await Character.findOneAndUpdate(
         {
-          userId: interaction.user.id,
+          $or: [
+            { guildChannelId: interaction.channelId },
+            { userId: interaction.user.id },
+          ],
         },
         { imageUrl: characterImage },
         { new: true }
       ).exec();
 
       if (!character) {
-        throw new Error('Character not found');
+        interaction.reply({
+          embeds: [charNotFoundError(interaction)],
+          ephemeral: true,
+        });
+        return;
       }
 
       await reloadCharacterSheet(character, interaction.client);

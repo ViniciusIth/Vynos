@@ -10,6 +10,7 @@ import setStory from './commands/character/set_story';
 import setImage from './commands/character/set_image';
 import reload from './commands/character/reload';
 import setAttributes from './commands/character/set_attr';
+import setProfile from './commands/character/set_profile';
 
 // Place all commands here for registering
 export const commands: ICommandInteraction[] | ICommandModalInteraction[] = [
@@ -19,6 +20,7 @@ export const commands: ICommandInteraction[] | ICommandModalInteraction[] = [
   setAttributes,
   setStory,
   setImage,
+  setProfile,
   getProfile,
   reload,
 ];

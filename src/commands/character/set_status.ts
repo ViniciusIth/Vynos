@@ -1,4 +1,5 @@
 import { CommandInteraction, SlashCommandBuilder } from 'discord.js';
+import { charNotFoundError } from '../../embeds/error/character_not_found';
 import { ICommandInteraction } from '../../interfaces/command';
 import { Character } from '../../schemas/character';
 import { reloadCharacterSheet } from '../../utils/character.utils';
@@ -35,13 +36,21 @@ const setStatus: ICommandInteraction = {
     console.log(JSON.stringify(updateObj));
 
     const character = await Character.findOneAndUpdate(
-      { userId: interaction.user.id },
+      {
+        $or: [
+          { guildChannelId: interaction.channelId },
+          { userId: interaction.user.id },
+        ],
+      },
       updateObj,
       { new: true }
     ).exec();
 
     if (!character) {
-      interaction.reply({ content: 'Character not found!', ephemeral: true });
+      interaction.reply({
+        embeds: [charNotFoundError(interaction)],
+        ephemeral: true,
+      });
       return;
     }
 

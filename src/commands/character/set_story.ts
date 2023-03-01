@@ -8,6 +8,7 @@ import {
   TextInputBuilder,
   TextInputStyle,
 } from 'discord.js';
+import { charNotFoundError } from '../../embeds/error/character_not_found';
 import { ICommandModalInteraction } from '../../interfaces/command';
 import { Character } from '../../schemas/character';
 import { reloadCharacterSheet } from '../../utils/character.utils';
@@ -18,6 +19,21 @@ const setStory: ICommandModalInteraction = {
     .setDescription('Sets the character story side'),
 
   async execute(interaction: CommandInteraction): Promise<void> {
+    const character = await Character.findOne({
+      $or: [
+        { guildChannelId: interaction.channelId },
+        { userId: interaction.user.id },
+      ],
+    });
+
+    if (!character) {
+      interaction.reply({
+        embeds: [charNotFoundError(interaction)],
+        ephemeral: true,
+      });
+      return;
+    }
+
     const modal = new ModalBuilder()
       .setTitle('Character Story')
       .setCustomId('set_story');
@@ -43,7 +59,7 @@ const setStory: ICommandModalInteraction = {
     try {
       const character = await Character.findOneAndUpdate(
         {
-          userId: interaction.user.id,
+          guildChannelId: interaction.channelId,
         },
         {
           story: characterStory,
@@ -52,7 +68,11 @@ const setStory: ICommandModalInteraction = {
       ).exec();
 
       if (!character) {
-        throw new Error('Character not found');
+        interaction.reply({
+          content: 'É necessário utilizar este comando no seu canal!',
+          ephemeral: true,
+        });
+        return;
       }
 
       await reloadCharacterSheet(character, interaction.client);
